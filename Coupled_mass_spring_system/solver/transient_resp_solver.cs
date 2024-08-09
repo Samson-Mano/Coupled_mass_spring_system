@@ -75,7 +75,18 @@ namespace Coupled_mass_spring_system.solver
             angularNaturalFrequencies = Vector<double>.Build.Dense(num_DOF);
             normModeShapes = Matrix<double>.Build.Dense(num_DOF, num_DOF);
             inv_normModeShapes = Matrix<double>.Build.Dense(num_DOF, num_DOF);
+
+            // Modal co-ordinate data
+            modalMass = Vector<double>.Build.Dense(num_DOF);
+            modalStiffness = Vector<double>.Build.Dense(num_DOF);
+            modalIDispl = Vector<double>.Build.Dense(num_DOF);
+            modalIVelo = Vector<double>.Build.Dense(num_DOF);
+
+
+
         }
+
+
         // Method to set mass matrix
         public void SetMassMatrix(double[,] masses)
         {
@@ -221,7 +232,7 @@ namespace Coupled_mass_spring_system.solver
             }
         }
 
-        // Solver method (to be implemented)
+        // Solver method
         public void Solve()
         {
             // Implementation of the solver for transient response
@@ -238,9 +249,9 @@ namespace Coupled_mass_spring_system.solver
         }
 
 
-        private (double displacement, double velocity, double acceleration) TransientInitialConditionResponse(      
-            double time_t,       
-            double mass,       
+        private (double displacement, double velocity, double acceleration) TransientInitialConditionResponse(
+            double time_t,
+            double mass,
             double stiff,
             double zeta,
             double i_disp,
@@ -280,15 +291,15 @@ namespace Coupled_mass_spring_system.solver
         }
 
         private (double displacement, double velocity, double acceleration) CalculateForcedResponse(
-            double t, 
-            int j, 
-            double mass, 
-            double stiff, 
+            double t,
+            int j,
+            double mass,
+            double stiff,
             double zeta)
         {
             double displResponseForce = 0.0;
             double veloResponseForce = 0.0;
-            double acclResponseForce = 0.0; 
+            double acclResponseForce = 0.0;
 
             for (int k = 0; k < num_DOF; k++)
             {
@@ -305,11 +316,11 @@ namespace Coupled_mass_spring_system.solver
         }
 
         private (double displacement, double velocity, double acceleration) ForcedResponseSoln(
-            double time_t, 
-            double mass, 
-            double stiff, 
-            double zeta, 
-            double force_ampl, 
+            double time_t,
+            double mass,
+            double stiff,
+            double zeta,
+            double force_ampl,
             double force_freq)
         {
             // Transient Forced Response
@@ -409,6 +420,24 @@ namespace Coupled_mass_spring_system.solver
             // Deformation response factor
             double R_d_factor1 = 1.0 - Math.Pow(force_omega / omega_n, 2);
             double R_d_factor2 = 2.0 * zeta * (force_omega / omega_n);
+
+            // For resonance case without damping (at resonance frequency)
+            if (zeta == 0 && R_d_factor1 == 0)
+            {
+                // Displacement response
+                double resonant_displ_resp = 0.0;
+
+
+                // Velocity response
+                double resonant_velo_resp = 0.0;
+
+
+                // Acceleration response
+                double resonant_accl_resp = 0.0;
+
+                return (resonant_displ_resp, resonant_velo_resp, resonant_accl_resp);
+            }
+
             double R_d = 1.0 / Math.Sqrt(Math.Pow(R_d_factor1, 2) + Math.Pow(R_d_factor2, 2));
 
             // Phase value
