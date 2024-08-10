@@ -54,10 +54,30 @@ namespace Coupled_mass_spring_system.solver
         private double timeInterval;
 
         // Final results
+        private Vector<double> t_eval;
         private Matrix<double> displacement;
         private Matrix<double> velocity;
         private Matrix<double> acceleration;
 
+        public double[] GetTimedata()
+        {
+            return this.t_eval.ToArray();
+        }
+
+        public double[] GetDisplacement(int rowIndex)
+        {
+            return this.displacement.Row(rowIndex).ToArray();
+        }
+
+        public double[] GetVelocity(int rowIndex)
+        {
+            return this.velocity.Row(rowIndex).ToArray();
+        }
+
+        public double[] GetAcceleration(int rowIndex)
+        {
+            return this.acceleration.Row(rowIndex).ToArray();
+        }
 
         // Constructor to initialize the solver with the number of DOF
         public transient_resp_solver(int num_DOF)
@@ -82,6 +102,8 @@ namespace Coupled_mass_spring_system.solver
             modalIDispl = Vector<double>.Build.Dense(num_DOF);
             modalIVelo = Vector<double>.Build.Dense(num_DOF);
 
+            // Initialize the results
+            displacement = Matrix<double>.Build.Dense(num_DOF, num_DOF);
 
 
         }
@@ -194,7 +216,7 @@ namespace Coupled_mass_spring_system.solver
         {
             // Arrange the time
             int numTimeSteps = (int)Math.Ceiling((endTime - startTime) / timeInterval);
-            Vector<double> t_eval = Vector<double>.Build.Dense(numTimeSteps, i => i * timeInterval);
+            this.t_eval = Vector<double>.Build.Dense(numTimeSteps, i => i * timeInterval);
 
             // Result variables
             this.displacement = Matrix<double>.Build.Dense(num_DOF, numTimeSteps);

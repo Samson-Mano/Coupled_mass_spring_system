@@ -58,7 +58,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.button_solve = new System.Windows.Forms.Button();
             this.label12 = new System.Windows.Forms.Label();
-            this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
+            this.checkedListBox_respType = new System.Windows.Forms.CheckedListBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -81,6 +81,7 @@
             this.button_showresp.TabIndex = 7;
             this.button_showresp.Text = "Show Response";
             this.button_showresp.UseVisualStyleBackColor = true;
+            this.button_showresp.Click += new System.EventHandler(this.button_showresp_Click);
             // 
             // groupBox1
             // 
@@ -337,27 +338,27 @@
             this.label12.TabIndex = 12;
             this.label12.Text = "-->";
             // 
-            // checkedListBox1
+            // checkedListBox_respType
             // 
-            this.checkedListBox1.FormattingEnabled = true;
-            this.checkedListBox1.Items.AddRange(new object[] {
+            this.checkedListBox_respType.FormattingEnabled = true;
+            this.checkedListBox_respType.Items.AddRange(new object[] {
             "Node 1 Displacement Response",
             "Node 1 Velocity Response",
             "Node 1 Acceleration Response",
             "Node 2 Displacement Response",
             "Node 2 Velocity Response",
             "Node 2 Acceleration Response"});
-            this.checkedListBox1.Location = new System.Drawing.Point(14, 453);
-            this.checkedListBox1.Name = "checkedListBox1";
-            this.checkedListBox1.Size = new System.Drawing.Size(405, 186);
-            this.checkedListBox1.TabIndex = 13;
+            this.checkedListBox_respType.Location = new System.Drawing.Point(14, 453);
+            this.checkedListBox_respType.Name = "checkedListBox_respType";
+            this.checkedListBox_respType.Size = new System.Drawing.Size(405, 186);
+            this.checkedListBox_respType.TabIndex = 13;
             // 
             // tResp_form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 23F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(847, 653);
-            this.Controls.Add(this.checkedListBox1);
+            this.Controls.Add(this.checkedListBox_respType);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.button_solve);
             this.Controls.Add(this.groupBox3);
@@ -412,6 +413,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button button_solve;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.CheckedListBox checkedListBox1;
+        private System.Windows.Forms.CheckedListBox checkedListBox_respType;
     }
 }

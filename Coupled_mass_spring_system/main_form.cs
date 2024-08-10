@@ -88,15 +88,15 @@ namespace Coupled_mass_spring_system
             }
 
             // Parse and validate Modal damping ratios data
-            if (!double.TryParse(textBox_zeta1.Text, out double t_zeta1) || t_zeta1 < 0 || t_zeta1 >= 1)
+            if (!double.TryParse(textBox_zeta1.Text, out double t_zeta1) || t_zeta1 <= 0 || t_zeta1 >= 1)
             {
-                MessageBox.Show("Zeta1 must be between 0 and 1 (inclusive of 0 but not 1).", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Zeta1 must be between 0 and 1.", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 
-            if (!double.TryParse(textBox_zeta2.Text, out double t_zeta2) || t_zeta2 < 0 || t_zeta2 >= 1)
+            if (!double.TryParse(textBox_zeta2.Text, out double t_zeta2) || t_zeta2 <= 0 || t_zeta2 >= 1)
             {
-                MessageBox.Show("Zeta2 must be between 0 and 1 (inclusive of 0 but not 1).", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Zeta2 must be between 0 and 1.", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 
