@@ -9,7 +9,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
-using Python.Runtime;
+using OxyPlot;
+using OxyPlot.Series;
+using OxyPlot.Axes;
+using OxyPlot.WindowsForms;
+using System.IO;
 
 namespace Coupled_mass_spring_system
 {
@@ -152,9 +156,9 @@ namespace Coupled_mass_spring_system
             //5 Node 2 Acceleration Response
 
             // List to store datas based on the selected options
-            List<Tuple<string, dynamic>> Displacement_datas = new List<Tuple<string, dynamic>>();
-            List<Tuple<string, dynamic>> Velocity_datas = new List<Tuple<string, dynamic>>();
-            List<Tuple<string, dynamic>> Acceleration_datas = new List<Tuple<string, dynamic>>();
+            List<List<double>> Displacement_datas = new List<List<double>>();
+            List<List<double>> Velocity_datas = new List<List<double>>();
+            List<List<double>> Acceleration_datas = new List<List<double>>();
 
             bool is_Displacement_selected = false;
             bool is_Velocity_selected = false;
@@ -166,27 +170,27 @@ namespace Coupled_mass_spring_system
                 switch (index)
                 {
                     case 0:
-                        Displacement_datas.Add(Tuple.Create("Displacement - Node 1", (dynamic)solver.GetDisplacement(0)));
+                        Displacement_datas.Add(solver.GetDisplacement(0));
                         is_Displacement_selected = true;
                         break;
                     case 1:
-                        Velocity_datas.Add(Tuple.Create("Velocity - Node 1", (dynamic)solver.GetVelocity(0)));
+                        Velocity_datas.Add(solver.GetVelocity(0));
                         is_Velocity_selected = true;
                         break;
                     case 2:
-                        Acceleration_datas.Add(Tuple.Create("Acceleration - Node 1", (dynamic)solver.GetAcceleration(0)));
+                        Acceleration_datas.Add(solver.GetAcceleration(0));
                         is_Acceleration_selected = true;
                         break;
                     case 3:
-                        Displacement_datas.Add(Tuple.Create("Displacement - Node 2", (dynamic)solver.GetDisplacement(1)));
+                        Displacement_datas.Add(solver.GetDisplacement(1));
                         is_Displacement_selected = true;
                         break;
                     case 4:
-                        Velocity_datas.Add(Tuple.Create("Velocity - Node 2", (dynamic)solver.GetVelocity(1)));
+                        Velocity_datas.Add(solver.GetVelocity(1));
                         is_Velocity_selected = true;
                         break;
                     case 5:
-                        Acceleration_datas.Add(Tuple.Create("Acceleration - Node 2", (dynamic)solver.GetAcceleration(1)));
+                        Acceleration_datas.Add(solver.GetAcceleration(1));
                         is_Acceleration_selected = true;
                         break;
                 }
@@ -199,124 +203,88 @@ namespace Coupled_mass_spring_system
             }
 
             // Get the time data
-            dynamic time_data = (dynamic)solver.GetTimedata();
+            List<double> time_data = solver.GetTimedata();
 
-            PythonEngine.Initialize();
+            // Create a new PlotModel
+            var plotModel = new PlotModel { Title = "Response Plot" };
 
-            using (Py.GIL())
+            if (is_Displacement_selected && is_Velocity_selected && is_Acceleration_selected)
             {
-                dynamic plt = Py.Import("matplotlib.pyplot");
-                dynamic np = Py.Import("numpy");
-
-                if (is_Displacement_selected && is_Velocity_selected && is_Acceleration_selected)
+                // 3 Subplots
+                AddSubplot(plotModel, time_data, "Displacement", Displacement_datas, 0);
+                AddSubplot(plotModel, time_data, "Velocity", Velocity_datas, 1);
+                AddSubplot(plotModel, time_data, "Acceleration", Acceleration_datas, 2);
+            }
+            else if (is_Displacement_selected && is_Velocity_selected)
+            {
+                // 2 Subplots (Displacement and Velocity)
+                AddSubplot(plotModel, time_data, "Displacement", Displacement_datas, 0);
+                AddSubplot(plotModel, time_data, "Velocity", Velocity_datas, 1);
+            }
+            else if (is_Displacement_selected && is_Acceleration_selected)
+            {
+                // 2 Subplots (Displacement and Acceleration)
+                AddSubplot(plotModel, time_data, "Displacement", Displacement_datas, 0);
+                AddSubplot(plotModel, time_data, "Acceleration", Acceleration_datas, 1);
+            }
+            else if (is_Velocity_selected && is_Acceleration_selected)
+            {
+                // 2 Subplots (Velocity and Acceleration)
+                AddSubplot(plotModel, time_data, "Velocity", Velocity_datas, 0);
+                AddSubplot(plotModel, time_data, "Acceleration", Acceleration_datas, 1);
+            }
+            else
+            {
+                // Single plots
+                if (is_Displacement_selected)
                 {
-                    // 3 Sub plots
-                    PlotThreeSubplots(plt, np, time_data, Displacement_datas, Velocity_datas, Acceleration_datas);
+                    AddSinglePlot(plotModel, time_data, "Displacement", Displacement_datas);
                 }
-                else if (is_Displacement_selected && is_Velocity_selected)
+                else if (is_Velocity_selected)
                 {
-                    // 2 Sub plots (Displacment and Velocity)
-                    PlotTwoSubplots(plt, np, time_data, Displacement_datas, Velocity_datas);
-                }
-                else if (is_Displacement_selected && is_Acceleration_selected)
-                {
-                    // 2 Sub plots (Displacement and Acceleration)
-                    PlotTwoSubplots(plt, np, time_data, Displacement_datas, Acceleration_datas);
-                }
-                else if (is_Velocity_selected && is_Acceleration_selected)
-                {
-                    // 2 Sub plots (Velocity and Acceleration)
-                    PlotTwoSubplots(plt, np, time_data, Velocity_datas, Acceleration_datas);
+                    AddSinglePlot(plotModel, time_data, "Velocity", Velocity_datas);
                 }
                 else
                 {
-                    // Single plots
-                    if (is_Displacement_selected)
-                    {
-                        // Displacement plot
-                        PlotSinglePlot(plt, np, time_data, Displacement_datas);
-                    }
-                    else if (is_Velocity_selected)
-                    {
-                        // Velocity plot
-                        PlotSinglePlot(plt, np, time_data, Velocity_datas);
-                    }
-                    else
-                    {
-                        // Acceleration plot
-                        PlotSinglePlot(plt, np, time_data, Acceleration_datas);
-                    }
+                    AddSinglePlot(plotModel, time_data, "Acceleration", Acceleration_datas);
                 }
-
-                plt.tight_layout();
-                plt.savefig("response_plot.png");
-                plt.close();
             }
 
-            PythonEngine.Shutdown();
+            // Display the plot in a PlotView (Windows Forms example)
+            var plotView = new OxyPlot.WindowsForms.PlotView
+            {
+                Model = plotModel,
+                Dock = DockStyle.Fill
+            };
+
+            this.Controls.Add(plotView);
+            plotView.Refresh();
         }
 
 
-
-        private void PlotSinglePlot(dynamic plt, dynamic np, dynamic timeData, List<Tuple<string, dynamic>> data)
+        // Methods to add subplots or single plot
+        private void AddSubplot(PlotModel model, List<double> timeData, string yLabel, List<List<double>> data, int position)
         {
-            dynamic result = plt.subplots(1, 1, figsize: (10, 6));
-            dynamic fig = result[0];
-            dynamic ax = result[1];
+            var series = new LineSeries { Title = yLabel };
 
-            dynamic dataArray = np.array(data[0].Item2);
-            dynamic timeArray = np.array(timeData);
+            for (int i = 0; i < timeData.Count; i++)
+            {
+                series.Points.Add(new DataPoint(timeData[i], data[0][i])); // Assuming data contains 1D arrays
+            }
 
-            ax.plot(timeArray, dataArray);
-            ax.set_title(data[0].Item1);
-            ax.set_ylabel($"{data[0].Item1.Split('-')[0]} (units)");
-            ax.set_xlabel("Time");
+            model.Series.Add(series);
         }
 
-        private void PlotTwoSubplots(dynamic plt, dynamic np, dynamic timeData, List<Tuple<string, dynamic>> data1, List<Tuple<string, dynamic>> data2)
+        private void AddSinglePlot(PlotModel model, List<double> timeData, string yLabel, List<List<double>> data)
         {
+            var series = new LineSeries { Title = yLabel };
 
-            dynamic result = plt.subplots(2, 1, figsize: (10, 12));
-            dynamic fig = result[0];
-            dynamic axs = result[1];
+            for (int i = 0; i < timeData.Count; i++)
+            {
+                series.Points.Add(new DataPoint(timeData[i], data[0][i])); // Assuming data contains 1D arrays
+            }
 
-            dynamic dataArray1 = np.array(data1[0].Item2);
-            dynamic dataArray2 = np.array(data2[0].Item2);
-            dynamic timeArray = np.array(timeData);
-
-            axs[0].plot(timeArray, dataArray1);
-            axs[0].set_title(data1[0].Item1);
-            axs[0].set_ylabel($"{data1[0].Item1.Split('-')[0]} (units)");
-
-            axs[1].plot(timeArray, dataArray2);
-            axs[1].set_title(data2[0].Item1);
-            axs[1].set_ylabel($"{data2[0].Item1.Split('-')[0]} (units)");
-            axs[1].set_xlabel("Time");
-        }
-
-        private void PlotThreeSubplots(dynamic plt, dynamic np, dynamic timeData, List<Tuple<string, dynamic>> data1, List<Tuple<string, dynamic>> data2, List<Tuple<string, dynamic>> data3)
-        {
-            dynamic result = plt.subplots(3, 1, figsize: (10, 18));
-            dynamic fig = result[0];
-            dynamic axs = result[1];
-
-            dynamic dataArray1 = np.array(data1[0].Item2);
-            dynamic dataArray2 = np.array(data2[0].Item2);
-            dynamic dataArray3 = np.array(data3[0].Item2);
-            dynamic timeArray = np.array(timeData);
-
-            axs[0].plot(timeArray, dataArray1);
-            axs[0].set_title(data1[0].Item1);
-            axs[0].set_ylabel($"{data1[0].Item1.Split('-')[0]} (units)");
-
-            axs[1].plot(timeArray, dataArray2);
-            axs[1].set_title(data2[0].Item1);
-            axs[1].set_ylabel($"{data2[0].Item1.Split('-')[0]} (units)");
-
-            axs[2].plot(timeArray, dataArray3);
-            axs[2].set_title(data3[0].Item1);
-            axs[2].set_ylabel($"{data3[0].Item1.Split('-')[0]} (units)");
-            axs[2].set_xlabel("Time");
+            model.Series.Add(series);
         }
 
         private bool Is_InputDatas_valid()
@@ -379,14 +347,14 @@ namespace Coupled_mass_spring_system
                 return false;
             }
 
-            if (!double.TryParse(textBox_starttime.Text, out double t_endtime) || t_endtime > t_starttime)
+            if (!double.TryParse(textBox_endtime.Text, out double t_endtime) || t_endtime < t_starttime)
             {
                 MessageBox.Show("Analysis end time must be a positive number and greater than start time.", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 
 
-            if (!double.TryParse(textBox_timeinterval.Text, out double t_timeinterval) || t_timeinterval < (t_endtime - t_starttime))
+            if (!double.TryParse(textBox_timeinterval.Text, out double t_timeinterval) || t_timeinterval > (t_endtime - t_starttime))
             {
                 MessageBox.Show("Analysis time interval must be a positive number and less than the difference between end time and start time.", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;

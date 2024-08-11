@@ -59,24 +59,24 @@ namespace Coupled_mass_spring_system.solver
         private Matrix<double> velocity;
         private Matrix<double> acceleration;
 
-        public double[] GetTimedata()
+        public List<double> GetTimedata()
         {
-            return this.t_eval.ToArray();
+            return this.t_eval.ToList();
         }
 
-        public double[] GetDisplacement(int rowIndex)
+        public List<double> GetDisplacement(int rowIndex)
         {
-            return this.displacement.Row(rowIndex).ToArray();
+            return this.displacement.Row(rowIndex).ToList();
         }
 
-        public double[] GetVelocity(int rowIndex)
+        public List<double> GetVelocity(int rowIndex)
         {
-            return this.velocity.Row(rowIndex).ToArray();
+            return this.velocity.Row(rowIndex).ToList();
         }
 
-        public double[] GetAcceleration(int rowIndex)
+        public List<double> GetAcceleration(int rowIndex)
         {
-            return this.acceleration.Row(rowIndex).ToArray();
+            return this.acceleration.Row(rowIndex).ToList();
         }
 
         // Constructor to initialize the solver with the number of DOF
