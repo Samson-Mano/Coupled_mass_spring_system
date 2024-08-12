@@ -340,6 +340,7 @@
             // 
             // checkedListBox_respType
             // 
+            this.checkedListBox_respType.CheckOnClick = true;
             this.checkedListBox_respType.FormattingEnabled = true;
             this.checkedListBox_respType.Items.AddRange(new object[] {
             "Node 1 Displacement Response",

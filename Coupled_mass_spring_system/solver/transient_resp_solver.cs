@@ -216,7 +216,7 @@ namespace Coupled_mass_spring_system.solver
         {
             // Arrange the time
             int numTimeSteps = (int)Math.Ceiling((endTime - startTime) / timeInterval);
-            this.t_eval = Vector<double>.Build.Dense(numTimeSteps, i => i * timeInterval);
+            this.t_eval = Vector<double>.Build.Dense(numTimeSteps, i => startTime + i * timeInterval);
 
             // Result variables
             this.displacement = Matrix<double>.Build.Dense(num_DOF, numTimeSteps);
@@ -250,7 +250,7 @@ namespace Coupled_mass_spring_system.solver
 
                 this.displacement.SetColumn(i, this.normModeShapes * disp_at_t);
                 this.velocity.SetColumn(i, this.normModeShapes * velo_at_t);
-                this.acceleration.SetColumn(i, this.normModeShapes * velo_at_t);
+                this.acceleration.SetColumn(i, this.normModeShapes * accl_at_t);
             }
         }
 

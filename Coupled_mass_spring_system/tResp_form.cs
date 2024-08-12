@@ -14,6 +14,8 @@ using OxyPlot.Series;
 using OxyPlot.Axes;
 using OxyPlot.WindowsForms;
 using System.IO;
+using OxyPlot.Legends;
+using System.Reflection;
 
 namespace Coupled_mass_spring_system
 {
@@ -52,6 +54,9 @@ namespace Coupled_mass_spring_system
 
         // Main solver variable
         transient_resp_solver solver;
+
+        // Plot view window
+        plot_form plt_form;
 
         public tResp_form()
         {
@@ -139,58 +144,49 @@ namespace Coupled_mass_spring_system
 
         private void button_showresp_Click(object sender, EventArgs e)
         {
+
             // Check whether the analysis is complete
             if (is_analysis_complete == false)
             {
                 return;
             }
 
-
-            // Analysis is complete
-            // Plot options
-            //0 Node 1 Displacement Response
-            //1 Node 1 Velocity Response
-            //2 Node 1 Acceleration Response
-            //3 Node 2 Displacement Response
-            //4 Node 2 Velocity Response
-            //5 Node 2 Acceleration Response
-
             // List to store datas based on the selected options
-            List<List<double>> Displacement_datas = new List<List<double>>();
-            List<List<double>> Velocity_datas = new List<List<double>>();
-            List<List<double>> Acceleration_datas = new List<List<double>>();
+            List<Tuple<string, List<double>>> Displacement_datas = new List<Tuple<string, List<double>>>();
+            List<Tuple<string, List<double>>> Velocity_datas = new List<Tuple<string, List<double>>>();
+            List<Tuple<string, List<double>>> Acceleration_datas = new List<Tuple<string, List<double>>>();
 
             bool is_Displacement_selected = false;
             bool is_Velocity_selected = false;
             bool is_Acceleration_selected = false;
 
-            // Check which options are selected
+            // Populate data lists based on selected options
             foreach (int index in checkedListBox_respType.CheckedIndices)
             {
                 switch (index)
                 {
                     case 0:
-                        Displacement_datas.Add(solver.GetDisplacement(0));
+                        Displacement_datas.Add(new Tuple<string, List<double>>("Displacement at Node 1", solver.GetDisplacement(0)));
                         is_Displacement_selected = true;
                         break;
                     case 1:
-                        Velocity_datas.Add(solver.GetVelocity(0));
+                        Velocity_datas.Add(new Tuple<string, List<double>>("Velocity at Node 1", solver.GetVelocity(0)));
                         is_Velocity_selected = true;
                         break;
                     case 2:
-                        Acceleration_datas.Add(solver.GetAcceleration(0));
+                        Acceleration_datas.Add(new Tuple<string, List<double>>("Acceleration at Node 1", solver.GetAcceleration(0)));
                         is_Acceleration_selected = true;
                         break;
                     case 3:
-                        Displacement_datas.Add(solver.GetDisplacement(1));
+                        Displacement_datas.Add(new Tuple<string, List<double>>("Displacement at Node 2", solver.GetDisplacement(1)));
                         is_Displacement_selected = true;
                         break;
                     case 4:
-                        Velocity_datas.Add(solver.GetVelocity(1));
+                        Velocity_datas.Add(new Tuple<string, List<double>>("Velocity at Node 2", solver.GetVelocity(1)));
                         is_Velocity_selected = true;
                         break;
                     case 5:
-                        Acceleration_datas.Add(solver.GetAcceleration(1));
+                        Acceleration_datas.Add(new Tuple<string, List<double>>("Acceleration at Node 2", solver.GetAcceleration(1)));
                         is_Acceleration_selected = true;
                         break;
                 }
@@ -202,89 +198,184 @@ namespace Coupled_mass_spring_system
                 return;
             }
 
+
             // Get the time data
             List<double> time_data = solver.GetTimedata();
 
-            // Create a new PlotModel
-            var plotModel = new PlotModel { Title = "Response Plot" };
+            // Create a TableLayoutPanel to arrange the PlotViews
+            var tableLayoutPanel = new TableLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                ColumnCount = 1,
+                RowCount = 0, // Set this to the number of plots you will add
+                AutoSize = true,
+                AutoSizeMode = AutoSizeMode.GrowAndShrink,
+                BorderStyle = BorderStyle.None
+            };
 
-            if (is_Displacement_selected && is_Velocity_selected && is_Acceleration_selected)
+            // Count the number of plots to be added
+            int numPlots = (is_Displacement_selected ? 1 : 0) +
+                            (is_Velocity_selected ? 1 : 0) +
+                            (is_Acceleration_selected ? 1 : 0);
+
+            tableLayoutPanel.RowCount = numPlots;
+
+            // Add uniform row styles
+            for (int i = 0; i < numPlots; i++)
             {
-                // 3 Subplots
-                AddSubplot(plotModel, time_data, "Displacement", Displacement_datas, 0);
-                AddSubplot(plotModel, time_data, "Velocity", Velocity_datas, 1);
-                AddSubplot(plotModel, time_data, "Acceleration", Acceleration_datas, 2);
-            }
-            else if (is_Displacement_selected && is_Velocity_selected)
-            {
-                // 2 Subplots (Displacement and Velocity)
-                AddSubplot(plotModel, time_data, "Displacement", Displacement_datas, 0);
-                AddSubplot(plotModel, time_data, "Velocity", Velocity_datas, 1);
-            }
-            else if (is_Displacement_selected && is_Acceleration_selected)
-            {
-                // 2 Subplots (Displacement and Acceleration)
-                AddSubplot(plotModel, time_data, "Displacement", Displacement_datas, 0);
-                AddSubplot(plotModel, time_data, "Acceleration", Acceleration_datas, 1);
-            }
-            else if (is_Velocity_selected && is_Acceleration_selected)
-            {
-                // 2 Subplots (Velocity and Acceleration)
-                AddSubplot(plotModel, time_data, "Velocity", Velocity_datas, 0);
-                AddSubplot(plotModel, time_data, "Acceleration", Acceleration_datas, 1);
-            }
-            else
-            {
-                // Single plots
-                if (is_Displacement_selected)
-                {
-                    AddSinglePlot(plotModel, time_data, "Displacement", Displacement_datas);
-                }
-                else if (is_Velocity_selected)
-                {
-                    AddSinglePlot(plotModel, time_data, "Velocity", Velocity_datas);
-                }
-                else
-                {
-                    AddSinglePlot(plotModel, time_data, "Acceleration", Acceleration_datas);
-                }
+                tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 100f / numPlots)); // Split space uniformly
             }
 
-            // Display the plot in a PlotView (Windows Forms example)
+            // Initialize row index
+            int rowIndex = 0;
+
+            // Add subplots to the PlotModels
+            if (is_Displacement_selected)
+            {
+                // Create and configure PlotModels
+                var displacementPanel = new Panel
+                {
+                    Dock = DockStyle.Fill,
+                    BorderStyle = BorderStyle.None
+                };
+                // Displacement Vs. Time
+                AddSinglePlot(new PlotModel(), 
+                    time_data, "Displacement", Displacement_datas, displacementPanel);
+
+                tableLayoutPanel.Controls.Add(displacementPanel, 0, rowIndex);
+                rowIndex++;
+            }
+
+            if (is_Velocity_selected)
+            {
+                // Create and configure PlotModels
+                var velocityPanel = new Panel
+                {
+                    Dock = DockStyle.Fill,
+                    BorderStyle = BorderStyle.None
+                };
+                // Velocity Vs. Time
+                AddSinglePlot(new PlotModel(),
+                    time_data, "Velocity", Velocity_datas, velocityPanel);
+
+                tableLayoutPanel.Controls.Add(velocityPanel, 0, rowIndex);
+                rowIndex++;
+            }
+
+            if (is_Acceleration_selected)
+            {
+                // Create and configure PlotModels
+                var accelerationPanel = new Panel
+                {
+                    Dock = DockStyle.Fill,
+                    BorderStyle = BorderStyle.None
+                };
+                // Acceleration Vs. Time
+                AddSinglePlot(new PlotModel(), 
+                    time_data, "Acceleration", Acceleration_datas, accelerationPanel);
+
+                tableLayoutPanel.Controls.Add(accelerationPanel, 0, rowIndex);
+                rowIndex++;
+            }
+
+            // Create a Panel to hold the TableLayoutPanel and add padding
+            var containerPanel = new Panel
+            {
+                Dock = DockStyle.Fill,
+                Padding = new Padding(0, 28, 0, 0) // Add padding to the top
+            };
+
+            containerPanel.Controls.Add(tableLayoutPanel);
+
+            plt_form = new plot_form();
+            plt_form.Controls.Add(containerPanel);
+            plt_form.Show();
+
+        }
+
+        private void AddSinglePlot(PlotModel model, List<double> timeData, string yLabel, 
+            List<Tuple<string,List<double>>> data, Panel panel)
+        {
+            // Define a list of rainbow colors
+            var rainbowColors = new List<OxyColor>
+            {
+                OxyColors.Red,
+                OxyColors.Orange,
+                OxyColors.Yellow,
+                OxyColors.Green,
+                OxyColors.Blue,
+                OxyColors.Indigo,
+                OxyColors.Violet
+            };
+
+            // Create a random number generator
+            var random = new Random();
+
+            // Create and configure the legend
+            var legend = new Legend
+            {
+                // LegendTitle = "Response Vs Time",
+                LegendPlacement = LegendPlacement.Inside,
+                LegendPosition = LegendPosition.TopRight,
+                LegendBackground = OxyColors.Transparent,
+                LegendBorder = OxyColors.Black,
+            };
+
+            // Add the legend
+            model.Legends.Add(legend);
+
+            // Create and configure the X axis
+            var xAxis = new LinearAxis
+            {
+                Position = AxisPosition.Bottom,
+                Title = "Time (s)", // Label for X axis
+                IsZoomEnabled = true, // Optional: allow zooming
+                IsPanEnabled = true,  // Optional: allow panning
+            };
+
+            // Create and configure the Y axis
+            var yAxis = new LinearAxis
+            {
+                Position = AxisPosition.Left,
+                Title = yLabel, // Label for Y axis, using yLabel passed to the method
+                IsZoomEnabled = true, // Optional: allow zooming
+                IsPanEnabled = true,  // Optional: allow panning
+            };
+
+            // Add the axes to the model
+            model.Axes.Add(xAxis);
+            model.Axes.Add(yAxis);
+
+            for (int j = 0; j < data.Count; j++)
+            {
+                // Randomly select a color from the rainbowColors list
+                var color = rainbowColors[random.Next(rainbowColors.Count)];
+
+                var series = new LineSeries
+                {
+                    // series name is data[j].Item1;
+                    Title = data[j].Item1,
+                    Color = color // Set the color for each series
+                };
+
+                for (int i = 0; i < timeData.Count; i++)
+                {
+                    series.Points.Add(new DataPoint(timeData[i], data[j].Item2[i])); // Assuming data contains 1D arrays
+                }
+
+                model.Series.Add(series);
+
+            }
+
+
+            // Create a PlotView and add it to the panel
             var plotView = new OxyPlot.WindowsForms.PlotView
             {
-                Model = plotModel,
+                Model = model,
                 Dock = DockStyle.Fill
             };
 
-            this.Controls.Add(plotView);
-            plotView.Refresh();
-        }
-
-
-        // Methods to add subplots or single plot
-        private void AddSubplot(PlotModel model, List<double> timeData, string yLabel, List<List<double>> data, int position)
-        {
-            var series = new LineSeries { Title = yLabel };
-
-            for (int i = 0; i < timeData.Count; i++)
-            {
-                series.Points.Add(new DataPoint(timeData[i], data[0][i])); // Assuming data contains 1D arrays
-            }
-
-            model.Series.Add(series);
-        }
-
-        private void AddSinglePlot(PlotModel model, List<double> timeData, string yLabel, List<List<double>> data)
-        {
-            var series = new LineSeries { Title = yLabel };
-
-            for (int i = 0; i < timeData.Count; i++)
-            {
-                series.Points.Add(new DataPoint(timeData[i], data[0][i])); // Assuming data contains 1D arrays
-            }
-
-            model.Series.Add(series);
+            panel.Controls.Add(plotView);
         }
 
         private bool Is_InputDatas_valid()
