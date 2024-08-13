@@ -59,6 +59,8 @@
             this.button_solve = new System.Windows.Forms.Button();
             this.label12 = new System.Windows.Forms.Label();
             this.checkedListBox_respType = new System.Windows.Forms.CheckedListBox();
+            this.button_export = new System.Windows.Forms.Button();
+            this.label_IsSolveComplete = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -75,7 +77,7 @@
             // 
             // button_showresp
             // 
-            this.button_showresp.Location = new System.Drawing.Point(644, 552);
+            this.button_showresp.Location = new System.Drawing.Point(644, 528);
             this.button_showresp.Name = "button_showresp";
             this.button_showresp.Size = new System.Drawing.Size(188, 55);
             this.button_showresp.TabIndex = 7;
@@ -321,7 +323,7 @@
             // 
             // button_solve
             // 
-            this.button_solve.Location = new System.Drawing.Point(436, 552);
+            this.button_solve.Location = new System.Drawing.Point(436, 528);
             this.button_solve.Name = "button_solve";
             this.button_solve.Size = new System.Drawing.Size(156, 55);
             this.button_solve.TabIndex = 11;
@@ -332,7 +334,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(603, 568);
+            this.label12.Location = new System.Drawing.Point(603, 544);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(35, 23);
             this.label12.TabIndex = 12;
@@ -354,11 +356,32 @@
             this.checkedListBox_respType.Size = new System.Drawing.Size(405, 186);
             this.checkedListBox_respType.TabIndex = 13;
             // 
+            // button_export
+            // 
+            this.button_export.Location = new System.Drawing.Point(644, 589);
+            this.button_export.Name = "button_export";
+            this.button_export.Size = new System.Drawing.Size(188, 55);
+            this.button_export.TabIndex = 14;
+            this.button_export.Text = "Export Response";
+            this.button_export.UseVisualStyleBackColor = true;
+            this.button_export.Click += new System.EventHandler(this.button_export_Click);
+            // 
+            // label_IsSolveComplete
+            // 
+            this.label_IsSolveComplete.AutoSize = true;
+            this.label_IsSolveComplete.Location = new System.Drawing.Point(465, 605);
+            this.label_IsSolveComplete.Name = "label_IsSolveComplete";
+            this.label_IsSolveComplete.Size = new System.Drawing.Size(73, 23);
+            this.label_IsSolveComplete.TabIndex = 15;
+            this.label_IsSolveComplete.Text = "label13";
+            // 
             // tResp_form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 23F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(847, 653);
+            this.ClientSize = new System.Drawing.Size(847, 665);
+            this.Controls.Add(this.label_IsSolveComplete);
+            this.Controls.Add(this.button_export);
             this.Controls.Add(this.checkedListBox_respType);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.button_solve);
@@ -370,6 +393,7 @@
             this.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
+            this.MinimumSize = new System.Drawing.Size(865, 712);
             this.Name = "tResp_form";
             this.Text = "Time Vs. Response";
             this.groupBox1.ResumeLayout(false);
@@ -415,5 +439,7 @@
         private System.Windows.Forms.Button button_solve;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.CheckedListBox checkedListBox_respType;
+        private System.Windows.Forms.Button button_export;
+        private System.Windows.Forms.Label label_IsSolveComplete;
     }
 }

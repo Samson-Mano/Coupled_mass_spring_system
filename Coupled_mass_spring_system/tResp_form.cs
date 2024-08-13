@@ -16,6 +16,7 @@ using OxyPlot.WindowsForms;
 using System.IO;
 using OxyPlot.Legends;
 using System.Reflection;
+using System.Reflection.Emit;
 
 namespace Coupled_mass_spring_system
 {
@@ -90,6 +91,9 @@ namespace Coupled_mass_spring_system
 
             // Reset the analysis
             is_analysis_complete = false;
+
+            label_IsSolveComplete.Text = "Solve not complete!";
+            label_IsSolveComplete.ForeColor = Color.Red;
         }
 
         private void button_solve_Click(object sender, EventArgs e)
@@ -139,6 +143,9 @@ namespace Coupled_mass_spring_system
 
             // Set the analysis complete
             this.is_analysis_complete = true;
+
+            label_IsSolveComplete.Text = "Solve complete!";
+            label_IsSolveComplete.ForeColor = Color.Green;
         }
 
 
@@ -239,7 +246,7 @@ namespace Coupled_mass_spring_system
                     BorderStyle = BorderStyle.None
                 };
                 // Displacement Vs. Time
-                AddSinglePlot(new PlotModel(), 
+                AddSinglePlot(new PlotModel(),
                     time_data, "Displacement", Displacement_datas, displacementPanel);
 
                 tableLayoutPanel.Controls.Add(displacementPanel, 0, rowIndex);
@@ -271,45 +278,112 @@ namespace Coupled_mass_spring_system
                     BorderStyle = BorderStyle.None
                 };
                 // Acceleration Vs. Time
-                AddSinglePlot(new PlotModel(), 
+                AddSinglePlot(new PlotModel(),
                     time_data, "Acceleration", Acceleration_datas, accelerationPanel);
 
                 tableLayoutPanel.Controls.Add(accelerationPanel, 0, rowIndex);
                 rowIndex++;
             }
 
-            // Create a Panel to hold the TableLayoutPanel and add padding
-            var containerPanel = new Panel
-            {
-                Dock = DockStyle.Fill,
-                Padding = new Padding(0, 28, 0, 0) // Add padding to the top
-            };
 
-            containerPanel.Controls.Add(tableLayoutPanel);
 
-            plt_form = new plot_form();
-            plt_form.Controls.Add(containerPanel);
+            plt_form = new plot_form(tableLayoutPanel);
+
             plt_form.Show();
 
         }
 
-        private void AddSinglePlot(PlotModel model, List<double> timeData, string yLabel, 
-            List<Tuple<string,List<double>>> data, Panel panel)
-        {
-            // Define a list of rainbow colors
-            var rainbowColors = new List<OxyColor>
-            {
-                OxyColors.Red,
-                OxyColors.Orange,
-                OxyColors.Yellow,
-                OxyColors.Green,
-                OxyColors.Blue,
-                OxyColors.Indigo,
-                OxyColors.Violet
-            };
 
-            // Create a random number generator
-            var random = new Random();
+
+        private void button_export_Click(object sender, EventArgs e)
+        {
+            // Export the data to text file
+            // Check whether the analysis is complete
+            if (is_analysis_complete == false)
+            {
+                return;
+            }
+
+            // List to store datas based on the selected options
+            List<Tuple<string, List<double>>> Displacement_datas = new List<Tuple<string, List<double>>>();
+            List<Tuple<string, List<double>>> Velocity_datas = new List<Tuple<string, List<double>>>();
+            List<Tuple<string, List<double>>> Acceleration_datas = new List<Tuple<string, List<double>>>();
+
+            bool is_Displacement_selected = false;
+            bool is_Velocity_selected = false;
+            bool is_Acceleration_selected = false;
+
+            // Populate data lists based on selected options
+            foreach (int index in checkedListBox_respType.CheckedIndices)
+            {
+                switch (index)
+                {
+                    case 0:
+                        Displacement_datas.Add(new Tuple<string, List<double>>("Displacement at Node 1", solver.GetDisplacement(0)));
+                        is_Displacement_selected = true;
+                        break;
+                    case 1:
+                        Velocity_datas.Add(new Tuple<string, List<double>>("Velocity at Node 1", solver.GetVelocity(0)));
+                        is_Velocity_selected = true;
+                        break;
+                    case 2:
+                        Acceleration_datas.Add(new Tuple<string, List<double>>("Acceleration at Node 1", solver.GetAcceleration(0)));
+                        is_Acceleration_selected = true;
+                        break;
+                    case 3:
+                        Displacement_datas.Add(new Tuple<string, List<double>>("Displacement at Node 2", solver.GetDisplacement(1)));
+                        is_Displacement_selected = true;
+                        break;
+                    case 4:
+                        Velocity_datas.Add(new Tuple<string, List<double>>("Velocity at Node 2", solver.GetVelocity(1)));
+                        is_Velocity_selected = true;
+                        break;
+                    case 5:
+                        Acceleration_datas.Add(new Tuple<string, List<double>>("Acceleration at Node 2", solver.GetAcceleration(1)));
+                        is_Acceleration_selected = true;
+                        break;
+                }
+            }
+
+            if ((Displacement_datas.Count + Velocity_datas.Count + Acceleration_datas.Count) == 0)
+            {
+                MessageBox.Show("No options selected for plotting.");
+                return;
+            }
+
+
+            // Get the time data
+            List<double> time_data = solver.GetTimedata();
+
+            // Add subplots to the PlotModels
+            if (is_Displacement_selected)
+            {
+                // Displacement Vs. Time
+                ExportData("Displacement_response", time_data, Displacement_datas);
+            }
+
+            if (is_Velocity_selected)
+            {
+                // Velocity Vs. Time
+                ExportData("Velocity_response", time_data, Velocity_datas);
+            }
+
+            if (is_Acceleration_selected)
+            {
+                // Acceleration Vs. Time
+                ExportData("Acceleration_response", time_data, Acceleration_datas);
+            }
+
+        }
+
+
+        private void AddSinglePlot(PlotModel model, List<double> timeData, string yLabel,
+            List<Tuple<string, List<double>>> data, Panel panel)
+        {
+
+            // Set the background to transparent
+            model.Background = OxyColors.Transparent;
+            model.PlotAreaBackground = OxyColors.Transparent;
 
             // Create and configure the legend
             var legend = new Legend
@@ -349,13 +423,13 @@ namespace Coupled_mass_spring_system
             for (int j = 0; j < data.Count; j++)
             {
                 // Randomly select a color from the rainbowColors list
-                var color = rainbowColors[random.Next(rainbowColors.Count)];
+                //var color = rainbowColors[random.Next(rainbowColors.Count)];
 
                 var series = new LineSeries
                 {
                     // series name is data[j].Item1;
                     Title = data[j].Item1,
-                    Color = color // Set the color for each series
+                    //Color = color // Set the color for each series
                 };
 
                 for (int i = 0; i < timeData.Count; i++)
@@ -376,6 +450,59 @@ namespace Coupled_mass_spring_system
             };
 
             panel.Controls.Add(plotView);
+        }
+
+
+        private void ExportData(string label, List<double> timeData, List<Tuple<string, List<double>>> data)
+        {
+            // Show save file dialog to get the file path
+            string filePath = GetSaveFilePath(label);
+            if (string.IsNullOrEmpty(filePath))
+            {
+                return;
+            }
+
+            // Write data to the file
+            using (StreamWriter writer = new StreamWriter(filePath))
+            {
+                // Write the header
+                var headerBuilder = new StringBuilder("Time");
+                foreach (var tuple in data)
+                {
+                    headerBuilder.Append(", ").Append(tuple.Item1);
+                }
+                writer.WriteLine(headerBuilder.ToString());
+
+                // Write data points
+                for (int i = 0; i < timeData.Count; i++)
+                {
+                    var lineBuilder = new StringBuilder(timeData[i].ToString());
+                    foreach (var tuple in data)
+                    {
+                        lineBuilder.Append(", ").Append(tuple.Item2[i].ToString());
+                    }
+                    writer.WriteLine(lineBuilder.ToString());
+                }
+            }
+        }
+
+
+        private string GetSaveFilePath(string title)
+        {
+            using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+            {
+                saveFileDialog.Filter = "TXT Files|*.txt";
+                saveFileDialog.Title = "Save Response";
+
+                // Set a default file name
+                saveFileDialog.FileName = $"{title}.txt";
+
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    return saveFileDialog.FileName;
+                }
+            }
+            return null;
         }
 
         private bool Is_InputDatas_valid()
@@ -496,6 +623,5 @@ namespace Coupled_mass_spring_system
 
             return true;
         }
-
     }
 }
