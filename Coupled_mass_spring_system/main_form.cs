@@ -14,7 +14,7 @@ namespace Coupled_mass_spring_system
     public partial class main_form : Form
     {
         tResp_form tResp_Form1;
-
+        fResp_form fResp_Form1;
 
         // Store the variables
         private double mass_m1 = 0.0;
@@ -48,6 +48,26 @@ namespace Coupled_mass_spring_system
                 tResp_Form1.update_springmodel_data(mass_m1, mass_m2, stiff_k1, stiff_k2, stiff_k3, zeta1, zeta2);
                 tResp_Form1.Show();
                 tResp_Form1.BringToFront(); // Bring the form to the front if it is already open
+            }
+
+        }
+
+
+        private void button_freqVresp_Click(object sender, EventArgs e)
+        {
+            // Frequency vs Response solver creation
+            if (Is_InputDatas_valid())
+            {
+                // Check if fResp_Form1 is null or disposed
+                if (fResp_Form1 == null || fResp_Form1.IsDisposed)
+                {
+                    fResp_Form1 = new fResp_form();
+                }
+
+                // Update the spring model data and show the form
+                fResp_Form1.update_springmodel_data(mass_m1, mass_m2, stiff_k1, stiff_k2, stiff_k3, zeta1, zeta2);
+                fResp_Form1.Show();
+                fResp_Form1.BringToFront(); // Bring the form to the front if it is already open
             }
 
         }
@@ -111,5 +131,6 @@ namespace Coupled_mass_spring_system
 
             return true;
       }
+
     }
 }

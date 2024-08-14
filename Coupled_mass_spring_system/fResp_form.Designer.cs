@@ -41,7 +41,7 @@
             this.label9 = new System.Windows.Forms.Label();
             this.textBox_fampl1 = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
-            this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
+            this.checkedListBox_respType = new System.Windows.Forms.CheckedListBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.textBox_freqinterval = new System.Windows.Forms.TextBox();
             this.textBox_freqend = new System.Windows.Forms.TextBox();
@@ -53,6 +53,8 @@
             this.label12 = new System.Windows.Forms.Label();
             this.button_solve = new System.Windows.Forms.Button();
             this.button_showresp = new System.Windows.Forms.Button();
+            this.button_export = new System.Windows.Forms.Button();
+            this.label_IsSolveComplete = new System.Windows.Forms.Label();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -171,20 +173,21 @@
             this.label8.TabIndex = 0;
             this.label8.Text = "Force amplitude node 1 : ";
             // 
-            // checkedListBox1
+            // checkedListBox_respType
             // 
-            this.checkedListBox1.FormattingEnabled = true;
-            this.checkedListBox1.Items.AddRange(new object[] {
+            this.checkedListBox_respType.CheckOnClick = true;
+            this.checkedListBox_respType.FormattingEnabled = true;
+            this.checkedListBox_respType.Items.AddRange(new object[] {
             "Node 1 Displacement Response",
             "Node 1 Velocity Response",
             "Node 1 Acceleration Response",
             "Node 2 Displacement Response",
             "Node 2 Velocity Response",
             "Node 2 Acceleration Response"});
-            this.checkedListBox1.Location = new System.Drawing.Point(14, 345);
-            this.checkedListBox1.Name = "checkedListBox1";
-            this.checkedListBox1.Size = new System.Drawing.Size(405, 186);
-            this.checkedListBox1.TabIndex = 14;
+            this.checkedListBox_respType.Location = new System.Drawing.Point(14, 345);
+            this.checkedListBox_respType.Name = "checkedListBox_respType";
+            this.checkedListBox_respType.Size = new System.Drawing.Size(405, 212);
+            this.checkedListBox_respType.TabIndex = 14;
             // 
             // groupBox1
             // 
@@ -262,6 +265,7 @@
             this.checkBox_autoselectfreq.TabIndex = 0;
             this.checkBox_autoselectfreq.Text = "Auto select frequency range";
             this.checkBox_autoselectfreq.UseVisualStyleBackColor = true;
+            this.checkBox_autoselectfreq.CheckedChanged += new System.EventHandler(this.checkBox_autoselectfreq_CheckedChanged);
             // 
             // label12
             // 
@@ -290,22 +294,45 @@
             this.button_showresp.TabIndex = 16;
             this.button_showresp.Text = "Show Response";
             this.button_showresp.UseVisualStyleBackColor = true;
+            this.button_showresp.Click += new System.EventHandler(this.button_showresp_Click);
+            // 
+            // button_export
+            // 
+            this.button_export.Location = new System.Drawing.Point(667, 547);
+            this.button_export.Name = "button_export";
+            this.button_export.Size = new System.Drawing.Size(188, 54);
+            this.button_export.TabIndex = 19;
+            this.button_export.Text = "Export Response";
+            this.button_export.UseVisualStyleBackColor = true;
+            this.button_export.Click += new System.EventHandler(this.button_export_Click);
+            // 
+            // label_IsSolveComplete
+            // 
+            this.label_IsSolveComplete.AutoSize = true;
+            this.label_IsSolveComplete.Location = new System.Drawing.Point(485, 563);
+            this.label_IsSolveComplete.Name = "label_IsSolveComplete";
+            this.label_IsSolveComplete.Size = new System.Drawing.Size(62, 23);
+            this.label_IsSolveComplete.TabIndex = 20;
+            this.label_IsSolveComplete.Text = "label6";
             // 
             // fResp_form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 23F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(882, 553);
+            this.ClientSize = new System.Drawing.Size(882, 608);
+            this.Controls.Add(this.label_IsSolveComplete);
+            this.Controls.Add(this.button_export);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.button_solve);
             this.Controls.Add(this.button_showresp);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.checkedListBox1);
+            this.Controls.Add(this.checkedListBox_respType);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.richTextBox_modeldata);
             this.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
+            this.MinimumSize = new System.Drawing.Size(900, 655);
             this.Name = "fResp_form";
             this.Text = "Frequency Vs. Response";
             this.groupBox2.ResumeLayout(false);
@@ -329,7 +356,7 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox textBox_fampl1;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.CheckedListBox checkedListBox1;
+        private System.Windows.Forms.CheckedListBox checkedListBox_respType;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.CheckBox checkBox_autoselectfreq;
         private System.Windows.Forms.TextBox textBox_freqinterval;
@@ -343,5 +370,7 @@
         private System.Windows.Forms.Button button_showresp;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Button button_export;
+        private System.Windows.Forms.Label label_IsSolveComplete;
     }
 }

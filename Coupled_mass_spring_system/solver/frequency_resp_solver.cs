@@ -42,14 +42,38 @@ namespace Coupled_mass_spring_system.solver
         private Vector<double> modalStiffness;
 
         // Analysis solver settings
+        private bool isFreqAutoSelect = false;
         private double startffreq;
         private double endffreq;
         private double ffreqInterval;
 
         // Final results
+        private Vector<double> freq_eval;
         private Matrix<double> displacement;
         private Matrix<double> velocity;
         private Matrix<double> acceleration;
+
+
+        public List<double> GetFrequencydata()
+        {
+            return this.freq_eval.ToList();
+        }
+
+        public List<double> GetDisplacement(int rowIndex)
+        {
+            return this.displacement.Row(rowIndex).ToList();
+        }
+
+        public List<double> GetVelocity(int rowIndex)
+        {
+            return this.velocity.Row(rowIndex).ToList();
+        }
+
+        public List<double> GetAcceleration(int rowIndex)
+        {
+            return this.acceleration.Row(rowIndex).ToList();
+        }
+
 
         public frequency_resp_solver(int num_DOF)
         {
@@ -68,8 +92,6 @@ namespace Coupled_mass_spring_system.solver
             // Modal co-ordinate data
             modalMass = Vector<double>.Build.Dense(num_DOF);
             modalStiffness = Vector<double>.Build.Dense(num_DOF);
-
-
 
         }
 
@@ -99,8 +121,9 @@ namespace Coupled_mass_spring_system.solver
         }
 
         // Method to set analysis settings
-        public void SetAnalysisSettings(double start, double end, double interval)
+        public void SetAnalysisSettings(bool isAutoSelect,double start, double end, double interval)
         {
+            isFreqAutoSelect = isAutoSelect;
             startffreq = start;
             endffreq = end;
             ffreqInterval = interval;
@@ -142,6 +165,33 @@ namespace Coupled_mass_spring_system.solver
                 angularNaturalFrequencies[i] = Math.Sqrt(Math.Abs(eigenvalues[sortedIndices[i]]));
             }
 
+            // Steps to auto create frequency range
+            if (isFreqAutoSelect == true)
+            {
+                // Set the start frequency as always 0.0001
+                startffreq = 0.0001;
+
+                if (angularNaturalFrequencies.Count == 1)
+                {
+                    endffreq = (2 * angularNaturalFrequencies[0])/ ( 2.0 * Math.PI);
+                }
+                else
+                {
+                    double maxGap = 0;
+                    for (int i = 1; i < angularNaturalFrequencies.Count; i++)
+                    {
+                        double gap = angularNaturalFrequencies[i] - angularNaturalFrequencies[i - 1];
+                        if (gap > maxGap)
+                        {
+                            maxGap = gap;
+                        }
+                    }
+                    endffreq = (angularNaturalFrequencies[angularNaturalFrequencies.Count - 1] + Math.Max(angularNaturalFrequencies[0], maxGap)) / (2.0 * Math.PI);
+                }
+
+               ffreqInterval = (endffreq - startffreq) / 1000.0;
+            }
+
             Matrix<double> modeShapes = Matrix<double>.Build.Dense(num_DOF, num_DOF);
             for (int i = 0; i < num_DOF; i++)
             {
@@ -167,8 +217,23 @@ namespace Coupled_mass_spring_system.solver
         private void PerformResponseCalculation()
         {
             // Arrange the frequency
+            // Generate the regular frequency range
             int numFreqSteps = (int)Math.Ceiling((endffreq - startffreq) / ffreqInterval);
-            Vector<double> f_eval = Vector<double>.Build.Dense(numFreqSteps, i => i * ffreqInterval);
+            var freqEval = Vector<double>.Build.Dense(numFreqSteps, i => startffreq + i * ffreqInterval);
+
+            // Combine the natural frequencies with the regular frequency range
+            var combinedFrequencies = new List<double>(freqEval);
+            combinedFrequencies.AddRange(this.angularNaturalFrequencies.Select(f => f / (2.0 * Math.PI)));
+
+            // Sort the combined frequencies
+            combinedFrequencies.Sort();
+
+            // Remove duplicates to ensure unique frequencies
+            var uniqueFrequencies = combinedFrequencies.Distinct().ToList();
+
+            // Convert back to a Vector
+            this.freq_eval = Vector<double>.Build.DenseOfEnumerable(uniqueFrequencies);
+            numFreqSteps = this.freq_eval.Count;
 
             // Result variables
             this.displacement = Matrix<double>.Build.Dense(num_DOF, numFreqSteps);
@@ -176,9 +241,9 @@ namespace Coupled_mass_spring_system.solver
             this.acceleration = Matrix<double>.Build.Dense(num_DOF, numFreqSteps);
 
             // Find the response at time step
-            for (int i = 0; i < f_eval.Count; i++)
+            for (int i = 0; i < freq_eval.Count; i++)
             {
-                double ffreq = f_eval[i];
+                double ffreq = freq_eval[i];
                 Vector<double> disp_at_f = Vector<double>.Build.Dense(num_DOF);
                 Vector<double> velo_at_f = Vector<double>.Build.Dense(num_DOF);
                 Vector<double> accl_at_f = Vector<double>.Build.Dense(num_DOF);

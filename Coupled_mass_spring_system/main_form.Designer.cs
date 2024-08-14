@@ -247,6 +247,7 @@
             this.button_freqVresp.TabIndex = 7;
             this.button_freqVresp.Text = "Frequency Vs. Response";
             this.button_freqVresp.UseVisualStyleBackColor = true;
+            this.button_freqVresp.Click += new System.EventHandler(this.button_freqVresp_Click);
             // 
             // main_form
             // 
