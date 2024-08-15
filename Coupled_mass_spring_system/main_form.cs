@@ -31,18 +31,24 @@ namespace Coupled_mass_spring_system
         public main_form()
         {
             InitializeComponent();
+
+            // Set the default values
+            set_defaults();
         }
 
         private void button_timeVresp_Click(object sender, EventArgs e)
         {
             // Time vs Response solver creation
-            if (Is_InputDatas_valid())
+            if (Is_InputDatas_valid() == true)
             {
                 // Check if tResp_Form1 is null or disposed
                 if (tResp_Form1 == null || tResp_Form1.IsDisposed)
                 {
                     tResp_Form1 = new tResp_form();
                 }
+
+                // save the valid inputs to the system settings
+                save_inputs();
 
                 // Update the spring model data and show the form
                 tResp_Form1.update_springmodel_data(mass_m1, mass_m2, stiff_k1, stiff_k2, stiff_k3, zeta1, zeta2);
@@ -63,6 +69,9 @@ namespace Coupled_mass_spring_system
                 {
                     fResp_Form1 = new fResp_form();
                 }
+
+                // save the valid inputs to the system settings
+                save_inputs();
 
                 // Update the spring model data and show the form
                 fResp_Form1.update_springmodel_data(mass_m1, mass_m2, stiff_k1, stiff_k2, stiff_k3, zeta1, zeta2);
@@ -131,6 +140,46 @@ namespace Coupled_mass_spring_system
 
             return true;
       }
+
+
+
+        private void set_defaults()
+        {
+            // Mass values
+            textBox_massm1.Text = Properties.Settings.Default.sett_mass_m1.ToString();
+            textBox_massm2.Text = Properties.Settings.Default.sett_mass_m2.ToString();
+
+            // Stiffness values
+            textBox_stiffk1.Text = Properties.Settings.Default.sett_stiff_k1.ToString();
+            textBox_stiffk2.Text = Properties.Settings.Default.sett_stiff_k2.ToString();
+            textBox_stiffk3.Text = Properties.Settings.Default.sett_stiff_k3.ToString();
+
+            // Modal damping values
+            textBox_zeta1.Text = Properties.Settings.Default.sett_zeta_1.ToString();
+            textBox_zeta2.Text = Properties.Settings.Default.sett_zeta_2.ToString();
+
+        }
+
+        private void save_inputs()
+        {
+            // Mass values
+            Properties.Settings.Default.sett_mass_m1= mass_m1;
+            Properties.Settings.Default.sett_mass_m2= mass_m2;
+
+            // Stiffness values
+            Properties.Settings.Default.sett_stiff_k1= stiff_k1;
+            Properties.Settings.Default.sett_stiff_k2= stiff_k2;
+            Properties.Settings.Default.sett_stiff_k3= stiff_k3;
+
+            // Modal damping values
+            Properties.Settings.Default.sett_zeta_1 = zeta1;
+            Properties.Settings.Default.sett_zeta_2 = zeta2;
+
+            Properties.Settings.Default.Save();
+
+        }
+
+
 
     }
 }

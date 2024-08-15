@@ -22,5 +22,305 @@ namespace Coupled_mass_spring_system.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("200")]
+        public double sett_mass_m1 {
+            get {
+                return ((double)(this["sett_mass_m1"]));
+            }
+            set {
+                this["sett_mass_m1"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        public double sett_mass_m2 {
+            get {
+                return ((double)(this["sett_mass_m2"]));
+            }
+            set {
+                this["sett_mass_m2"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1200")]
+        public double sett_stiff_k1 {
+            get {
+                return ((double)(this["sett_stiff_k1"]));
+            }
+            set {
+                this["sett_stiff_k1"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("200")]
+        public double sett_stiff_k2 {
+            get {
+                return ((double)(this["sett_stiff_k2"]));
+            }
+            set {
+                this["sett_stiff_k2"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public double sett_stiff_k3 {
+            get {
+                return ((double)(this["sett_stiff_k3"]));
+            }
+            set {
+                this["sett_stiff_k3"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.015")]
+        public double sett_zeta_1 {
+            get {
+                return ((double)(this["sett_zeta_1"]));
+            }
+            set {
+                this["sett_zeta_1"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.015")]
+        public double sett_zeta_2 {
+            get {
+                return ((double)(this["sett_zeta_2"]));
+            }
+            set {
+                this["sett_zeta_2"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("200")]
+        public double sett_fr_fampl1 {
+            get {
+                return ((double)(this["sett_fr_fampl1"]));
+            }
+            set {
+                this["sett_fr_fampl1"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        public double sett_fr_fampl2 {
+            get {
+                return ((double)(this["sett_fr_fampl2"]));
+            }
+            set {
+                this["sett_fr_fampl2"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public double sett_fr_ffreq1 {
+            get {
+                return ((double)(this["sett_fr_ffreq1"]));
+            }
+            set {
+                this["sett_fr_ffreq1"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public double sett_fr_ffreq2 {
+            get {
+                return ((double)(this["sett_fr_ffreq2"]));
+            }
+            set {
+                this["sett_fr_ffreq2"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.01")]
+        public double sett_fr_fstart {
+            get {
+                return ((double)(this["sett_fr_fstart"]));
+            }
+            set {
+                this["sett_fr_fstart"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("2")]
+        public double sett_fr_fend {
+            get {
+                return ((double)(this["sett_fr_fend"]));
+            }
+            set {
+                this["sett_fr_fend"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.001")]
+        public double sett_fr_finterval {
+            get {
+                return ((double)(this["sett_fr_finterval"]));
+            }
+            set {
+                this["sett_fr_finterval"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("200")]
+        public double sett_tr_fampl1 {
+            get {
+                return ((double)(this["sett_tr_fampl1"]));
+            }
+            set {
+                this["sett_tr_fampl1"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        public double sett_tr_fampl2 {
+            get {
+                return ((double)(this["sett_tr_fampl2"]));
+            }
+            set {
+                this["sett_tr_fampl2"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.2")]
+        public double sett_tr_ffreq1 {
+            get {
+                return ((double)(this["sett_tr_ffreq1"]));
+            }
+            set {
+                this["sett_tr_ffreq1"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.8")]
+        public double sett_tr_ffreq2 {
+            get {
+                return ((double)(this["sett_tr_ffreq2"]));
+            }
+            set {
+                this["sett_tr_ffreq2"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public double sett_tr_tstart {
+            get {
+                return ((double)(this["sett_tr_tstart"]));
+            }
+            set {
+                this["sett_tr_tstart"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        public double sett_tr_tend {
+            get {
+                return ((double)(this["sett_tr_tend"]));
+            }
+            set {
+                this["sett_tr_tend"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.001")]
+        public double sett_tr_tinterval {
+            get {
+                return ((double)(this["sett_tr_tinterval"]));
+            }
+            set {
+                this["sett_tr_tinterval"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public double sett_tr_idispl1 {
+            get {
+                return ((double)(this["sett_tr_idispl1"]));
+            }
+            set {
+                this["sett_tr_idispl1"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public double sett_tr_idsipl2 {
+            get {
+                return ((double)(this["sett_tr_idsipl2"]));
+            }
+            set {
+                this["sett_tr_idsipl2"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public double sett_tr_ivelo1 {
+            get {
+                return ((double)(this["sett_tr_ivelo1"]));
+            }
+            set {
+                this["sett_tr_ivelo1"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public double sett_tr_ivelo2 {
+            get {
+                return ((double)(this["sett_tr_ivelo2"]));
+            }
+            set {
+                this["sett_tr_ivelo2"] = value;
+            }
+        }
     }
 }

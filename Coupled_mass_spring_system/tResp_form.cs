@@ -17,6 +17,7 @@ using System.IO;
 using OxyPlot.Legends;
 using System.Reflection;
 using System.Reflection.Emit;
+using Coupled_mass_spring_system.Properties;
 
 namespace Coupled_mass_spring_system
 {
@@ -89,6 +90,9 @@ namespace Coupled_mass_spring_system
             zeta1 = t_zeta1;
             zeta2 = t_zeta2;
 
+            // Set the default values
+            set_defaults();
+
             // Reset the analysis
             is_analysis_complete = false;
 
@@ -103,6 +107,9 @@ namespace Coupled_mass_spring_system
             {
                 return;
             }
+
+            // save the valid inputs to the system settings
+            save_inputs();
 
             // Input datas are valid proceed with the solve
             // Define the number of DOF
@@ -622,6 +629,56 @@ namespace Coupled_mass_spring_system
             a_timeinterval = t_timeinterval;
 
             return true;
+        }
+
+        private void set_defaults()
+        {
+            // Force amplitudes
+            textBox_fampl1.Text = Properties.Settings.Default.sett_tr_fampl1.ToString();
+            textBox_fampl2.Text = Properties.Settings.Default.sett_tr_fampl2.ToString();
+
+            // Force frequencies
+            textBox_ffreq1.Text = Properties.Settings.Default.sett_tr_ffreq1.ToString();
+            textBox_ffreq2.Text = Properties.Settings.Default.sett_tr_ffreq2.ToString();
+
+            // Initial displacement and velocity
+            textBox_idispl1.Text = Properties.Settings.Default.sett_tr_idispl1.ToString();
+            textBox_idispl2.Text = Properties.Settings.Default.sett_tr_idsipl2.ToString();
+
+            textBox_ivelo1.Text = Properties.Settings.Default.sett_tr_ivelo1.ToString();
+            textBox_ivelo2.Text = Properties.Settings.Default.sett_tr_ivelo1.ToString();
+
+            // Analysis settings
+            textBox_starttime.Text = Properties.Settings.Default.sett_tr_tstart.ToString();
+            textBox_endtime.Text = Properties.Settings.Default.sett_tr_tend.ToString();
+            textBox_timeinterval.Text = Properties.Settings.Default.sett_tr_tinterval.ToString();
+
+        }
+
+        private void save_inputs()
+        {
+            // Force amplitudes
+            Properties.Settings.Default.sett_tr_fampl1 = fampl1;
+            Properties.Settings.Default.sett_tr_fampl2 = fampl2;
+
+            // Force frequencies
+            Properties.Settings.Default.sett_tr_ffreq1 = ffreq1;
+            Properties.Settings.Default.sett_tr_ffreq2 = ffreq2;
+
+            // Initial displacement and velocity
+            Properties.Settings.Default.sett_tr_idispl1 = idispl1;
+            Properties.Settings.Default.sett_tr_idsipl2 = idispl2;
+
+            Properties.Settings.Default.sett_tr_ivelo1 = ivelo1;
+            Properties.Settings.Default.sett_tr_ivelo2 = ivelo2;
+
+            // Analysis settings
+            Properties.Settings.Default.sett_tr_tstart = a_starttime;
+            Properties.Settings.Default.sett_tr_tend = a_endtime;
+            Properties.Settings.Default.sett_tr_tinterval = a_timeinterval;
+
+            Properties.Settings.Default.Save();
+
         }
     }
 }

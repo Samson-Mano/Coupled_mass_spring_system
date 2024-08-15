@@ -82,6 +82,9 @@ namespace Coupled_mass_spring_system
             zeta1 = t_zeta1;
             zeta2 = t_zeta2;
 
+            // Set the default values
+            set_defaults();
+
             // Reset the analysis
             is_analysis_complete = false;
 
@@ -96,6 +99,9 @@ namespace Coupled_mass_spring_system
             {
                 return;
             }
+
+             // save the valid inputs to the system settings
+            save_inputs();
 
             // Input datas are valid proceed with the solve
             // Define the number of DOF
@@ -572,14 +578,14 @@ namespace Coupled_mass_spring_system
                     return false;
                 }
 
-                if (!double.TryParse(textBox_freqend.Text, out double t_freqend) || t_freqend > t_freqstart)
+                if (!double.TryParse(textBox_freqend.Text, out double t_freqend) || t_freqend < t_freqstart)
                 {
                     MessageBox.Show("Frequency end value must be a positive number and greater than frequency start value.", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
                 }
 
 
-                if (!double.TryParse(textBox_freqinterval.Text, out double t_freqinterval) || t_freqinterval < (t_freqend - t_freqstart))
+                if (!double.TryParse(textBox_freqinterval.Text, out double t_freqinterval) || t_freqinterval > (t_freqend - t_freqstart))
                 {
                     MessageBox.Show("Frequency interval must be a positive number and less than the difference between frequency end value and frequency start value.", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
@@ -611,6 +617,44 @@ namespace Coupled_mass_spring_system
         }
 
 
+        private void set_defaults()
+        {
+            // Force amplitudes
+            textBox_fampl1.Text = Properties.Settings.Default.sett_fr_fampl1.ToString();
+            textBox_fampl2.Text = Properties.Settings.Default.sett_fr_fampl2.ToString();
+
+            // Force frequencies
+            textBox_ffreq1.Text = Properties.Settings.Default.sett_fr_ffreq1.ToString();
+            textBox_ffreq2.Text = Properties.Settings.Default.sett_fr_ffreq2.ToString();
+
+            // Analysis settings
+            textBox_freqstart.Text = Properties.Settings.Default.sett_fr_fstart.ToString();
+            textBox_freqend.Text = Properties.Settings.Default.sett_fr_fend.ToString();
+            textBox_freqinterval.Text = Properties.Settings.Default.sett_fr_finterval.ToString();
+
+        }
+
+        private void save_inputs()
+        {
+            // Force amplitudes
+            Properties.Settings.Default.sett_fr_fampl1 = fampl1;
+            Properties.Settings.Default.sett_fr_fampl2 = fampl2;
+
+            // Force frequencies
+            Properties.Settings.Default.sett_fr_ffreq1 = ffreq1;
+            Properties.Settings.Default.sett_fr_ffreq2 = ffreq2;
+
+            if (checkBox_autoselectfreq.Checked == false)
+            {
+                // Analysis settings
+                Properties.Settings.Default.sett_fr_fstart = freqstart;
+                Properties.Settings.Default.sett_fr_fend = freqend;
+                Properties.Settings.Default.sett_fr_finterval = freqinterval;
+            }
+
+            Properties.Settings.Default.Save();
+
+        }
 
 
     }
