@@ -189,7 +189,7 @@
             // 
             // textBox_ffreq2
             // 
-            this.textBox_ffreq2.Location = new System.Drawing.Point(270, 185);
+            this.textBox_ffreq2.Location = new System.Drawing.Point(270, 193);
             this.textBox_ffreq2.Name = "textBox_ffreq2";
             this.textBox_ffreq2.Size = new System.Drawing.Size(114, 31);
             this.textBox_ffreq2.TabIndex = 7;
@@ -197,7 +197,7 @@
             // 
             // textBox_ffreq1
             // 
-            this.textBox_ffreq1.Location = new System.Drawing.Point(270, 144);
+            this.textBox_ffreq1.Location = new System.Drawing.Point(270, 75);
             this.textBox_ffreq1.Name = "textBox_ffreq1";
             this.textBox_ffreq1.Size = new System.Drawing.Size(114, 31);
             this.textBox_ffreq1.TabIndex = 6;
@@ -206,7 +206,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(41, 188);
+            this.label11.Location = new System.Drawing.Point(41, 196);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(223, 23);
             this.label11.TabIndex = 5;
@@ -215,7 +215,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(41, 147);
+            this.label10.Location = new System.Drawing.Point(41, 78);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(223, 23);
             this.label10.TabIndex = 4;
@@ -223,7 +223,7 @@
             // 
             // textBox_fampl2
             // 
-            this.textBox_fampl2.Location = new System.Drawing.Point(270, 75);
+            this.textBox_fampl2.Location = new System.Drawing.Point(270, 156);
             this.textBox_fampl2.Name = "textBox_fampl2";
             this.textBox_fampl2.Size = new System.Drawing.Size(114, 31);
             this.textBox_fampl2.TabIndex = 3;
@@ -232,7 +232,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(39, 78);
+            this.label9.Location = new System.Drawing.Point(39, 159);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(225, 23);
             this.label9.TabIndex = 2;
