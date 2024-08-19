@@ -32,8 +32,9 @@ namespace Coupled_mass_spring_system.solver
         private Vector<double> forceFrequencies;
 
 
-        // Angular natural frequencies and Normal modes
+        // Angular natural frequencies, Natural frequencies and Normal modes
         private Vector<double> angularNaturalFrequencies;
+        private Vector<double> naturalFrequencies;
         private Matrix<double> normModeShapes;
 
 
@@ -85,8 +86,9 @@ namespace Coupled_mass_spring_system.solver
             forceAmplitudes = Vector<double>.Build.Dense(num_DOF);
             forceFrequencies = Vector<double>.Build.Dense(num_DOF);
 
-            // Set the angular frequencies and normalized mode shapes
+            // Set the angular frequencies, natural frequencies and normalized mode shapes
             angularNaturalFrequencies = Vector<double>.Build.Dense(num_DOF);
+            naturalFrequencies = Vector<double>.Build.Dense(num_DOF);
             normModeShapes = Matrix<double>.Build.Dense(num_DOF, num_DOF);
 
             // Modal co-ordinate data
@@ -159,11 +161,26 @@ namespace Coupled_mass_spring_system.solver
                                            .Select(e => e.index)
                                            .ToArray();
 
+            // Angular natural frequencies, Natural frequencies 
             Vector<double> angularNaturalFrequencies = Vector<double>.Build.Dense(sortedIndices.Length);
+            Vector<double> naturalFrequencies = Vector<double>.Build.Dense(sortedIndices.Length);
             for (int i = 0; i < sortedIndices.Length; i++)
             {
-                angularNaturalFrequencies[i] = Math.Sqrt(Math.Abs(eigenvalues[sortedIndices[i]]));
+                double omega_n = Math.Sqrt(Math.Abs(eigenvalues[sortedIndices[i]]));
+                angularNaturalFrequencies[i] = omega_n;
+                naturalFrequencies[i] = omega_n / (2.0 * Math.PI);
             }
+
+            // Get the minimum of force frequency factor
+            double min_freq_factor = double.MaxValue;
+            for (int i = 0; i < num_DOF; i++)
+            {
+                if(this.forceAmplitudes[i] !=0.0)
+                {
+                    min_freq_factor = Math.Min(min_freq_factor,this.forceFrequencies[i]);
+                }
+            }
+
 
             // Steps to auto create frequency range
             if (isFreqAutoSelect == true)
@@ -173,7 +190,7 @@ namespace Coupled_mass_spring_system.solver
 
                 if (angularNaturalFrequencies.Count == 1)
                 {
-                    endffreq = (2 * angularNaturalFrequencies[0])/ ( 2.0 * Math.PI);
+                    endffreq = (2 * angularNaturalFrequencies[0])/ ( 2.0 * Math.PI * min_freq_factor);
                 }
                 else
                 {
@@ -186,7 +203,7 @@ namespace Coupled_mass_spring_system.solver
                             maxGap = gap;
                         }
                     }
-                    endffreq = (angularNaturalFrequencies[angularNaturalFrequencies.Count - 1] + Math.Max(angularNaturalFrequencies[0], maxGap)) / (2.0 * Math.PI);
+                    endffreq = (angularNaturalFrequencies[angularNaturalFrequencies.Count - 1] + Math.Max(angularNaturalFrequencies[0], maxGap)) / (2.0 * Math.PI * min_freq_factor);
                 }
 
                ffreqInterval = (endffreq - startffreq) / 1000.0;
@@ -202,6 +219,7 @@ namespace Coupled_mass_spring_system.solver
 
             // Store the results in the class
             this.angularNaturalFrequencies = angularNaturalFrequencies;
+            this.naturalFrequencies = naturalFrequencies;
             this.normModeShapes = normModeShapes;
         }
 
@@ -221,18 +239,38 @@ namespace Coupled_mass_spring_system.solver
             int numFreqSteps = (int)Math.Ceiling((endffreq - startffreq) / ffreqInterval);
             var freqEval = Vector<double>.Build.Dense(numFreqSteps, i => startffreq + i * ffreqInterval);
 
-            // Combine the natural frequencies with the regular frequency range
-            var combinedFrequencies = new List<double>(freqEval);
-            combinedFrequencies.AddRange(this.angularNaturalFrequencies.Select(f => f / (2.0 * Math.PI)));
+            if(isFreqAutoSelect == true)
+            {
+                // Get the minimum of force frequency factor
+                double min_freq_factor = double.MaxValue;
+                for (int i = 0; i < num_DOF; i++)
+                {
+                    if (this.forceAmplitudes[i] != 0.0)
+                    {
+                        min_freq_factor = Math.Min(min_freq_factor, this.forceFrequencies[i]);
+                    }
+                }
 
-            // Sort the combined frequencies
-            combinedFrequencies.Sort();
+                // Combine the natural frequencies with the regular frequency range
+                var combinedFrequencies = new List<double>(freqEval);
+                combinedFrequencies.AddRange(this.naturalFrequencies.Select(f => f / min_freq_factor));
 
-            // Remove duplicates to ensure unique frequencies
-            var uniqueFrequencies = combinedFrequencies.Distinct().ToList();
+                // Sort the combined frequencies
+                combinedFrequencies.Sort();
 
-            // Convert back to a Vector
-            this.freq_eval = Vector<double>.Build.DenseOfEnumerable(uniqueFrequencies);
+                // Remove duplicates to ensure unique frequencies
+                var uniqueFrequencies = combinedFrequencies.Distinct().ToList();
+
+                // Convert back to a Vector
+                this.freq_eval = Vector<double>.Build.DenseOfEnumerable(uniqueFrequencies);
+            }
+            else
+            {
+                // Frequency inputs are given (Do not add natural frequencies to list
+                this.freq_eval = freqEval; // Vector<double>.Build.DenseOfEnumerable(uniqueFrequencies);
+            }
+
+
             numFreqSteps = this.freq_eval.Count;
 
             // Result variables

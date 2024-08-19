@@ -92,7 +92,7 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(407, 183);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(16, 23);
+            this.label5.Size = new System.Drawing.Size(14, 19);
             this.label5.TabIndex = 20;
             this.label5.Text = "f";
             // 
@@ -101,7 +101,7 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(407, 73);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(16, 23);
+            this.label4.Size = new System.Drawing.Size(14, 19);
             this.label4.TabIndex = 19;
             this.label4.Text = "f";
             // 
@@ -109,7 +109,7 @@
             // 
             this.textBox_ffreq2.Location = new System.Drawing.Point(309, 180);
             this.textBox_ffreq2.Name = "textBox_ffreq2";
-            this.textBox_ffreq2.Size = new System.Drawing.Size(92, 31);
+            this.textBox_ffreq2.Size = new System.Drawing.Size(92, 26);
             this.textBox_ffreq2.TabIndex = 7;
             this.textBox_ffreq2.Text = "1.0";
             // 
@@ -117,7 +117,7 @@
             // 
             this.textBox_ffreq1.Location = new System.Drawing.Point(309, 70);
             this.textBox_ffreq1.Name = "textBox_ffreq1";
-            this.textBox_ffreq1.Size = new System.Drawing.Size(92, 31);
+            this.textBox_ffreq1.Size = new System.Drawing.Size(92, 26);
             this.textBox_ffreq1.TabIndex = 6;
             this.textBox_ffreq1.Text = "1.0";
             // 
@@ -126,7 +126,7 @@
             this.label11.AutoSize = true;
             this.label11.Location = new System.Drawing.Point(25, 183);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(278, 23);
+            this.label11.Size = new System.Drawing.Size(231, 19);
             this.label11.TabIndex = 5;
             this.label11.Text = "Force frequency factor node 2 : ";
             // 
@@ -135,7 +135,7 @@
             this.label10.AutoSize = true;
             this.label10.Location = new System.Drawing.Point(25, 73);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(278, 23);
+            this.label10.Size = new System.Drawing.Size(231, 19);
             this.label10.TabIndex = 4;
             this.label10.Text = "Force frequency factor node 1 : ";
             // 
@@ -143,7 +143,7 @@
             // 
             this.textBox_fampl2.Location = new System.Drawing.Point(309, 139);
             this.textBox_fampl2.Name = "textBox_fampl2";
-            this.textBox_fampl2.Size = new System.Drawing.Size(92, 31);
+            this.textBox_fampl2.Size = new System.Drawing.Size(92, 26);
             this.textBox_fampl2.TabIndex = 3;
             this.textBox_fampl2.Text = "0.0";
             // 
@@ -152,7 +152,7 @@
             this.label9.AutoSize = true;
             this.label9.Location = new System.Drawing.Point(78, 142);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(225, 23);
+            this.label9.Size = new System.Drawing.Size(185, 19);
             this.label9.TabIndex = 2;
             this.label9.Text = "Force amplitude node 2 : ";
             // 
@@ -160,7 +160,7 @@
             // 
             this.textBox_fampl1.Location = new System.Drawing.Point(309, 30);
             this.textBox_fampl1.Name = "textBox_fampl1";
-            this.textBox_fampl1.Size = new System.Drawing.Size(92, 31);
+            this.textBox_fampl1.Size = new System.Drawing.Size(92, 26);
             this.textBox_fampl1.TabIndex = 1;
             this.textBox_fampl1.Text = "1.0";
             // 
@@ -169,7 +169,7 @@
             this.label8.AutoSize = true;
             this.label8.Location = new System.Drawing.Point(78, 33);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(225, 23);
+            this.label8.Size = new System.Drawing.Size(185, 19);
             this.label8.TabIndex = 0;
             this.label8.Text = "Force amplitude node 1 : ";
             // 
@@ -186,7 +186,7 @@
             "Node 2 Acceleration Response"});
             this.checkedListBox_respType.Location = new System.Drawing.Point(14, 345);
             this.checkedListBox_respType.Name = "checkedListBox_respType";
-            this.checkedListBox_respType.Size = new System.Drawing.Size(405, 212);
+            this.checkedListBox_respType.Size = new System.Drawing.Size(405, 193);
             this.checkedListBox_respType.TabIndex = 14;
             // 
             // groupBox1
@@ -207,61 +207,69 @@
             // 
             // textBox_freqinterval
             // 
+            this.textBox_freqinterval.Enabled = false;
             this.textBox_freqinterval.Location = new System.Drawing.Point(309, 169);
             this.textBox_freqinterval.Name = "textBox_freqinterval";
-            this.textBox_freqinterval.Size = new System.Drawing.Size(114, 31);
+            this.textBox_freqinterval.Size = new System.Drawing.Size(114, 26);
             this.textBox_freqinterval.TabIndex = 18;
             this.textBox_freqinterval.Text = "0.01";
             // 
             // textBox_freqend
             // 
+            this.textBox_freqend.Enabled = false;
             this.textBox_freqend.Location = new System.Drawing.Point(309, 128);
             this.textBox_freqend.Name = "textBox_freqend";
-            this.textBox_freqend.Size = new System.Drawing.Size(114, 31);
+            this.textBox_freqend.Size = new System.Drawing.Size(114, 26);
             this.textBox_freqend.TabIndex = 17;
             this.textBox_freqend.Text = "10.0";
             // 
             // textBox_freqstart
             // 
+            this.textBox_freqstart.Enabled = false;
             this.textBox_freqstart.Location = new System.Drawing.Point(309, 88);
             this.textBox_freqstart.Name = "textBox_freqstart";
-            this.textBox_freqstart.Size = new System.Drawing.Size(114, 31);
+            this.textBox_freqstart.Size = new System.Drawing.Size(114, 26);
             this.textBox_freqstart.TabIndex = 16;
             this.textBox_freqstart.Text = "0.0";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
+            this.label3.Enabled = false;
             this.label3.Location = new System.Drawing.Point(114, 172);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(185, 23);
+            this.label3.Size = new System.Drawing.Size(152, 19);
             this.label3.TabIndex = 15;
             this.label3.Text = "Frequency interval : ";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
+            this.label2.Enabled = false;
             this.label2.Location = new System.Drawing.Point(104, 131);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(195, 23);
+            this.label2.Size = new System.Drawing.Size(162, 19);
             this.label2.TabIndex = 14;
             this.label2.Text = "End force frequency : ";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
+            this.label1.Enabled = false;
             this.label1.Location = new System.Drawing.Point(96, 91);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(203, 23);
+            this.label1.Size = new System.Drawing.Size(168, 19);
             this.label1.TabIndex = 13;
             this.label1.Text = "Start force frequency : ";
             // 
             // checkBox_autoselectfreq
             // 
             this.checkBox_autoselectfreq.AutoSize = true;
+            this.checkBox_autoselectfreq.Checked = true;
+            this.checkBox_autoselectfreq.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox_autoselectfreq.Location = new System.Drawing.Point(29, 40);
             this.checkBox_autoselectfreq.Name = "checkBox_autoselectfreq";
-            this.checkBox_autoselectfreq.Size = new System.Drawing.Size(270, 27);
+            this.checkBox_autoselectfreq.Size = new System.Drawing.Size(222, 23);
             this.checkBox_autoselectfreq.TabIndex = 0;
             this.checkBox_autoselectfreq.Text = "Auto select frequency range";
             this.checkBox_autoselectfreq.UseVisualStyleBackColor = true;
@@ -272,7 +280,7 @@
             this.label12.AutoSize = true;
             this.label12.Location = new System.Drawing.Point(626, 502);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(35, 23);
+            this.label12.Size = new System.Drawing.Size(28, 19);
             this.label12.TabIndex = 18;
             this.label12.Text = "-->";
             // 
@@ -311,15 +319,15 @@
             this.label_IsSolveComplete.AutoSize = true;
             this.label_IsSolveComplete.Location = new System.Drawing.Point(485, 563);
             this.label_IsSolveComplete.Name = "label_IsSolveComplete";
-            this.label_IsSolveComplete.Size = new System.Drawing.Size(62, 23);
+            this.label_IsSolveComplete.Size = new System.Drawing.Size(51, 19);
             this.label_IsSolveComplete.TabIndex = 20;
             this.label_IsSolveComplete.Text = "label6";
             // 
             // fResp_form
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 23F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(882, 608);
+            this.ClientSize = new System.Drawing.Size(884, 616);
             this.Controls.Add(this.label_IsSolveComplete);
             this.Controls.Add(this.button_export);
             this.Controls.Add(this.label12);
