@@ -35,13 +35,13 @@ The application features a user-friendly interface that simplifies the setup and
 1. **Clone or Download the Repository:**
    - Clone the repository using Git: 
      ```bash
-     git clone https://github.com/yourusername/coupled-mass-spring-dynamics.git
+     git clone https://github.com/samson-mano/coupled-mass-spring-system.git
      ```
    - Alternatively, download the ZIP file from the GitHub page and extract it.
 
 2. **Run the Application:**
    - Download the portable version to run on any PC without needing to install additional software.
-   - Execute the `CoupledMassSpringSolver.exe` to launch the application.
+   - Execute the `Coupled_mass_spring_system.exe` to launch the application.
 
 3. **Perform Analysis:**
    - Input the necessary parameters through the user interface.
