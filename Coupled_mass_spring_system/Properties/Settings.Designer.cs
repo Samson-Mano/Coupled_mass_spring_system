@@ -290,12 +290,12 @@ namespace Coupled_mass_spring_system.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public double sett_tr_idsipl2 {
+        public double sett_tr_idispl2 {
             get {
-                return ((double)(this["sett_tr_idsipl2"]));
+                return ((double)(this["sett_tr_idispl2"]));
             }
             set {
-                this["sett_tr_idsipl2"] = value;
+                this["sett_tr_idispl2"] = value;
             }
         }
         

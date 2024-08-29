@@ -643,7 +643,7 @@ namespace Coupled_mass_spring_system
 
             // Initial displacement and velocity
             textBox_idispl1.Text = Properties.Settings.Default.sett_tr_idispl1.ToString();
-            textBox_idispl2.Text = Properties.Settings.Default.sett_tr_idsipl2.ToString();
+            textBox_idispl2.Text = Properties.Settings.Default.sett_tr_idispl2.ToString();
 
             textBox_ivelo1.Text = Properties.Settings.Default.sett_tr_ivelo1.ToString();
             textBox_ivelo2.Text = Properties.Settings.Default.sett_tr_ivelo1.ToString();
@@ -667,7 +667,7 @@ namespace Coupled_mass_spring_system
 
             // Initial displacement and velocity
             Properties.Settings.Default.sett_tr_idispl1 = idispl1;
-            Properties.Settings.Default.sett_tr_idsipl2 = idispl2;
+            Properties.Settings.Default.sett_tr_idispl2 = idispl2;
 
             Properties.Settings.Default.sett_tr_ivelo1 = ivelo1;
             Properties.Settings.Default.sett_tr_ivelo2 = ivelo2;

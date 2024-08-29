@@ -68,7 +68,7 @@
     <Setting Name="sett_tr_idispl1" Type="System.Double" Scope="User">
       <Value Profile="(Default)">1</Value>
     </Setting>
-    <Setting Name="sett_tr_idsipl2" Type="System.Double" Scope="User">
+    <Setting Name="sett_tr_idispl2" Type="System.Double" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="sett_tr_ivelo1" Type="System.Double" Scope="User">
